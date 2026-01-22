@@ -51,7 +51,7 @@ resource "aws_lb_target_group" "lb_tg" {
   }
 }
 
-resource "aws_alb_listener" "alb_listener" {
+resource "aws_lb_listener" "alb_listener" {
   load_balancer_arn = aws_lb.nlb.arn
   port              = 80
   protocol          = "TCP"

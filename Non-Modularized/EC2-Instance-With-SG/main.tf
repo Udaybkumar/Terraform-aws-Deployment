@@ -4,10 +4,10 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = var.S3_NAME
-    key            = "terraform/state.tfstate"
+    bucket         = "my-ews-baket1"
+    key            = "Non-Modularized/EC2-Instance-With-SG/terraform.tfstate"
     region         = "ap-southeast-1"
-    dynamodb_table = "terraform-state-lock"
+    dynamodb_table = "Lock-Files"
     encrypt        = true
   }
 }

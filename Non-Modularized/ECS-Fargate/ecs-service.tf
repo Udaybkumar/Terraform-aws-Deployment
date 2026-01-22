@@ -8,7 +8,7 @@ resource "aws_ecs_service" "ECS-Service" {
   desired_count                      = 2
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
-  depends_on                         = [aws_alb_listener.Listener, aws_iam_role.iam-role]
+  depends_on                         = [aws_lb_listener.Listener, aws_iam_role.iam-role]
 
 
   load_balancer {

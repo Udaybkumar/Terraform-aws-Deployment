@@ -10,8 +10,8 @@ resource "aws_lb" "LB" {
   }
 }
 
-resource "aws_alb_listener" "Listener" {
-  load_balancer_arn = aws_lb.LB.id
+resource "aws_lb_listener" "Listener" {
+  load_balancer_arn = aws_lb.LB.arn
   port              = "80"
   protocol          = "HTTP"
 
