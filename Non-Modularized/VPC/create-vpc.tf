@@ -1,17 +1,17 @@
 variable "access_key" {
-  type = string
+  type = AKIAXFWGNV255HFWDDNA
 }
 
 
 variable "secret_key" {
-  type = string
+  type = mvK3ExKzAIr5fVGPfK98ohVAo1Ex/zGnY9lAN8Bk
 }
 
 
 # Providing the provider with the region and some other credentials
 
 provider "aws" {
-  region     = "us-east-1"
+  region     = "ap-southeast-1"
   access_key = var.access_key
   secret_key = var.secret_key
 }
