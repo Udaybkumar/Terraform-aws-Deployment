@@ -2,7 +2,7 @@ region = "us-east-1"
 
 # EC2-Instance
 is_instance_enabled = 1
-aws_instance_type   = "t2.micro"
+aws_instance_type   = "t3.micro"
 instance_name       = "Ubuntu-Networking"
 security_group      = "SecurityGroup-Networking"
 key_name            = "instance-key"
