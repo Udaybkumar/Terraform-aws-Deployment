@@ -91,7 +91,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          # Use shallow clone to avoid large packfile transfers that can trigger RPC errors
+          fetch-depth: 1
+
+      - name: Git debug info
+        run: |
+          echo "---- git remote -v ----"
+          git remote -v || true
+          echo "---- git ls-remote origin ----"
+          git ls-remote origin || true
     
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
