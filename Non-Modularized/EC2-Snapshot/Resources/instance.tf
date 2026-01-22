@@ -18,7 +18,7 @@ resource "aws_instance" "EC2" {
                 mv index.html css fonts images js ../
                 rm -rf 2106_soft_landing/
     EOF
-  availability_zone = "us-east-1a"
+  availability_zone = "ap-southeast-1a"
   tags = {
     Name = "EC2"
   }

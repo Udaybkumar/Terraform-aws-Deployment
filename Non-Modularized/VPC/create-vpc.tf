@@ -1,19 +1,8 @@
-variable "access_key" {
-  type = AKIAXFWGNV255HFWDDNA
-}
-
-
-variable "secret_key" {
-  type = mvK3ExKzAIr5fVGPfK98ohVAo1Ex/zGnY9lAN8Bk
-}
-
-
-# Providing the provider with the region and some other credentials
+# Providing the provider with the region
+# AWS credentials come from GitHub Secrets via AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables
 
 provider "aws" {
-  region     = "ap-southeast-1"
-  access_key = var.access_key
-  secret_key = var.secret_key
+  region = "ap-southeast-1"
 }
 
 # Creating VPC with some other configures and the CIDR block will be provided by the variables.tf file and the CIDR block is 10.0.0.0/16
@@ -23,7 +12,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = "Aman-VPC"
+    Name = "Uday-VPC"
   }
 }
 
@@ -33,7 +22,7 @@ resource "aws_internet_gateway" "gateway" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = "Aman-Gateway"
+    Name = "Uday-Gateway"
   }
 }
 
@@ -44,7 +33,7 @@ resource "aws_internet_gateway" "gateway" {
 resource "aws_subnet" "public-subnet-1" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.public-subnet-1a
-  availability_zone       = "us-east-1a"
+  availability_zone       = "ap-southeast-1a"
   map_public_ip_on_launch = true
 
   tags = {
@@ -58,7 +47,7 @@ resource "aws_subnet" "public-subnet-1" {
 resource "aws_subnet" "public-subnet-2" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.public-subnet-2a
-  availability_zone       = "us-east-1b"
+  availability_zone       = "ap-southeast-1b"
   map_public_ip_on_launch = true
 
   tags = {
@@ -100,7 +89,7 @@ resource "aws_route_table_association" "route-table-association2" {
 resource "aws_subnet" "private-subnet-1" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.private-subnet-1a
-  availability_zone       = "us-east-1a"
+  availability_zone       = "ap-southeast-1a"
   map_public_ip_on_launch = false
 
   tags = {
@@ -115,7 +104,7 @@ resource "aws_subnet" "private-subnet-1" {
 resource "aws_subnet" "private-subnet-2" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.private-subnet-2a
-  availability_zone       = "us-east-1b"
+  availability_zone       = "ap-southeast-1b"
   map_public_ip_on_launch = false
 
   tags = {
@@ -131,7 +120,7 @@ resource "aws_subnet" "private-subnet-2" {
 resource "aws_subnet" "private-subnet-3" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.private-subnet-3a
-  availability_zone       = "us-east-1a"
+  availability_zone       = "ap-southeast-1a"
   map_public_ip_on_launch = false
 
   tags = {
@@ -147,7 +136,7 @@ resource "aws_subnet" "private-subnet-3" {
 resource "aws_subnet" "private-subnet-4" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.private-subnet-4a
-  availability_zone       = "us-east-1b"
+  availability_zone       = "ap-southeast-1b"
   map_public_ip_on_launch = false
 
   tags = {
@@ -159,8 +148,8 @@ resource "aws_subnet" "private-subnet-4" {
 # Creating EC2 Instance with Existing Subnet and it's attached VPC
 
 resource "aws_instance" "EC2" {
-  ami           = "ami-04505e74c0741db8d"
-  instance_type = "t2.micro"
+  ami           = "ami-08d59269edddde222"
+  instance_type = "t3.micro"
   subnet_id     = aws_subnet.public-subnet-1.id
 }
 

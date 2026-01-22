@@ -1,4 +1,4 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "ap-southeast-1"
   alias  = "use_default_region"
 }

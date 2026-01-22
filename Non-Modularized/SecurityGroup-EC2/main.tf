@@ -7,7 +7,7 @@ variable "secret_key" {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = "ap-southeast-1"
 }
 
 resource "aws_vpc" "vpc" {
