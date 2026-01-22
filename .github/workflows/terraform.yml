@@ -58,6 +58,7 @@ on:
           - 'API-Gateway-POST'
   push:
     branches:
+      - main
       - master
 #     branches-ignore:
 #       - '*'
@@ -88,7 +89,9 @@ jobs:
 #           echo "::set-output name=folder_name::$(read -p 'Enter the folder name: ' folder; echo $folder)"
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
     
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -108,5 +111,5 @@ jobs:
         run: terraform plan -lock=false
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name == 'push'
         run: terraform apply -auto-approve -lock=false
