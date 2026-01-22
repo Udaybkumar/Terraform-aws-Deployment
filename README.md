@@ -12,6 +12,7 @@ This repository contains Terraform configurations for deploying various AWS serv
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [Architecture & Flow Diagram](#architecture--flow-diagram)
 - [Terraform AWS Infrastructure](#Terraform-AWS-Infrastructure)
 - [Non-Modularized](#Non-Modularized)
 - [Modularized](Modularized)
@@ -26,6 +27,66 @@ This repository contains Terraform configurations for deploying various AWS serv
 ## Introduction
 
 This repository provides infrastructure-as-code configurations written in Terraform for deploying and managing a variety of AWS services. The configurations are organized into modular and non-modular implementations to offer flexibility and reusability.
+
+## Architecture & Flow Diagram
+
+```mermaid
+graph TD
+    A["GitHub Repository<br/>(Push Event)"] -->|Trigger| B["GitHub Actions<br/>Workflow"]
+    
+    B -->|1. Checkout Code| C["Clone Repository"]
+    C -->|2. Setup Terraform| D["Terraform CLI v1.5.0"]
+    D -->|3. Initialize| E["Terraform Init"]
+    
+    E -->|Read Backend Config| F["S3 Backend<br/>ap-southeast-1<br/>terraform-state-apse1"]
+    F -->|Store State| G["terraform.tfstate"]
+    
+    E -->|Read Configuration| H{"Configuration Type"}
+    
+    H -->|Modularized| I["Modules Directory<br/>- EC2-Instance<br/>- IAM-Roles<br/>- Lambda-Function<br/>- S3-Bucket<br/>- SNS-Topic<br/>- VPC-Networking"]
+    
+    H -->|Non-Modularized| J["Service Directories<br/>- ALB-EC2<br/>- API-Gateway<br/>- ASG-LB<br/>- DynamoDB<br/>- ECS-Fargate<br/>- Lambda-Function<br/>- S3-Static-Website<br/>- VPC<br/>- And 15+ More"]
+    
+    I -->|4. Plan| K["Terraform Plan"]
+    J -->|4. Plan| K
+    
+    K -->|5. Apply<br/>on main/master| L["Terraform Apply"]
+    
+    L -->|Deploy| M["AWS Services<br/>ap-southeast-1"]
+    M -->|EC2, RDS, Lambda| N["Compute"]
+    M -->|VPC, Subnet, Route| O["Networking"]
+    M -->|S3, DynamoDB| P["Storage"]
+    M -->|SNS, SQS, ALB| Q["Integration"]
+    M -->|CloudWatch, Logs| R["Monitoring"]
+    
+    L -->|Update State| G
+    
+    S["Jenkins Pipeline"] -->|Alternative| B
+    
+    style A fill:#ff6b6b
+    style B fill:#4ecdc4
+    style F fill:#45b7d1
+    style M fill:#96ceb4
+    style N fill:#dfe6e9
+    style O fill:#dfe6e9
+    style P fill:#dfe6e9
+    style Q fill:#dfe6e9
+    style R fill:#dfe6e9
+```
+
+### Workflow Steps:
+1. **Push to Repository**: Code changes trigger GitHub Actions workflow
+2. **Setup**: Terraform CLI is installed and configured
+3. **Initialize**: Backend (S3) is configured, modules are downloaded
+4. **Plan**: Review infrastructure changes
+5. **Apply**: Deploy resources to AWS ap-southeast-1 region
+6. **State Management**: Infrastructure state is stored in S3 bucket with DynamoDB locking
+
+### Backend Configuration:
+- **Bucket**: `terraform-state-apse1` (ap-southeast-1)
+- **State Lock**: DynamoDB table `Lock-Files`
+- **Encryption**: Enabled
+- **Versioning**: Enabled
 
 # Terraform AWS Infrastructure
 

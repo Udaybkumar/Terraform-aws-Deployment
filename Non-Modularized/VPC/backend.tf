@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "my-ews-buket1"
+    bucket         = "terraform-state-apse1"
     region         = "ap-southeast-1"
     key            = "Non-Modularized/VPC/terraform.tfstate"
     dynamodb_table = "Lock-Files"
